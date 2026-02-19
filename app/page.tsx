@@ -120,9 +120,9 @@ export default function HomePage() {
           <div className="container mx-auto px-6 mb-16">
               <h2 className="font-serif text-4xl text-[#1A2E24]">Our Process</h2>
           </div>
-          <div className="flex gap-8 px-6 overflow-x-auto pb-12 snap-x">
+          <div className="flex gap-8 px-6 overflow-x-auto pt-16 pb-12 snap-x">
                 {[1, 2, 3, 4].map((step) => (
-                    <div key={step} className="min-w-[300px] md:min-w-[400px] bg-[#FDFBF7] p-10 rounded-3xl snap-center relative mt-8 hover:-mt-2 transition-all duration-300 shadow-sm hover:shadow-xl">
+                    <div key={step} className="min-w-[300px] md:min-w-[400px] bg-[#FDFBF7] p-10 rounded-3xl snap-center relative hover:-translate-y-4 transition-all duration-300 shadow-sm hover:shadow-xl">
                         <span className="absolute -top-6 left-8 bg-[#2C4A3B] text-white font-serif text-4xl w-16 h-16 rounded-full flex items-center justify-center shadow-lg border-4 border-[#E8E6E1]">
                             {step}
                         </span>

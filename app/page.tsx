@@ -1,195 +1,383 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { TreeDeciduous, Flower, Droplets, Sun, Leaf, Scissors } from "lucide-react";
+import { Leaf, ArrowRight, Droplets, Sun, TreeDeciduous, Scissors, MapPin, Phone, Mail, Instagram, Facebook, Twitter } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#2C4A3B] font-serif">
+    <div className="min-h-screen bg-[#F9F8F6] text-[#1A2E24] font-sans selection:bg-[#D4AF37]/30">
       
-      {/* HEADER - Floating Navigation */}
-      <header className="fixed top-4 md:top-6 w-full z-50 flex justify-center pointer-events-none px-4">
-        <div className="bg-white/90 backdrop-blur-md rounded-full shadow-sm border border-[#E8E6E1] px-4 md:px-8 py-2 md:py-3 flex items-center justify-between md:justify-center w-full max-w-3xl pointer-events-auto">
-            <div className="hidden md:flex items-center gap-8">
-                <Link href="#" className="font-sans font-semibold text-sm hover:text-[#5D8736] transition-colors">Design</Link>
-                <Link href="#" className="font-sans font-semibold text-sm hover:text-[#5D8736] transition-colors">Maintenance</Link>
+      {/* NAVIGATION */}
+      <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"}`}>
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+                <Leaf className={`w-6 h-6 ${scrolled ? "text-[#1A2E24]" : "text-white"}`} />
+                <span className={`font-serif text-2xl tracking-tight ${scrolled ? "text-[#1A2E24]" : "text-white"}`}>
+                    Edenscapes <span className="italic font-light">Landscaping</span>
+                </span>
             </div>
             
-            <div className="flex items-center gap-2 md:mx-8">
-                <div className="bg-[#5D8736] p-1.5 md:p-2 rounded-full shadow-lg shadow-[#5D8736]/20">
-                    <Leaf className="text-white w-4 h-4 md:w-5 md:h-5" />
-                </div>
-                <span className="font-serif text-lg md:text-xl font-medium tracking-tight">Eden<span className="text-[#5D8736] italic">Scapes</span></span>
+            <div className={`hidden md:flex items-center gap-10 text-sm tracking-widest uppercase font-medium ${scrolled ? "text-[#1A2E24]" : "text-white"}`}>
+                <Link href="#" className="hover:text-[#D4AF37] transition-colors">Services</Link>
+                <Link href="#" className="hover:text-[#D4AF37] transition-colors">Portfolio</Link>
+                <Link href="#" className="hover:text-[#D4AF37] transition-colors">About</Link>
             </div>
 
-            <div className="hidden md:flex items-center gap-8">
-                <Link href="#" className="font-sans font-semibold text-sm hover:text-[#5D8736] transition-colors">Seasonal</Link>
-                <Button variant="ghost" className="font-sans font-semibold text-sm hover:bg-[#F0F2EB] hover:text-[#5D8736] rounded-full px-6 transition-colors">
-                    Contact
-                </Button>
-            </div>
+            <Button className={`hidden md:flex rounded-none px-8 py-6 text-xs uppercase tracking-widest transition-all ${scrolled ? "bg-[#1A2E24] text-white hover:bg-[#2C4A3B]" : "bg-white text-[#1A2E24] hover:bg-white/90"}`}>
+                Consultation
+            </Button>
 
             {/* Mobile Menu Button */}
-            <Button variant="ghost" size="icon" className="md:hidden text-[#2C4A3B]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-            </Button>
+            <button className={`md:hidden ${scrolled ? "text-[#1A2E24]" : "text-white"}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            </button>
         </div>
       </header>
 
-      {/* HERO - Full Image Background with Card */}
-      <section className="relative min-h-[100svh] w-full overflow-hidden flex items-center justify-center p-4 md:p-8 pt-24">
+      {/* HERO SECTION */}
+      <section className="relative h-[100svh] w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-             <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1558293842-c0fd3db8415e?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center transition-transform hover:scale-105 duration-[20s]"></div>
-             <div className="absolute inset-0 bg-black/30 md:bg-black/20"></div>
+             <motion.div 
+                initial={{ scale: 1.1 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 2, ease: "easeOut" }}
+                className="w-full h-full bg-[url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center"
+             />
+             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
         </div>
 
-        <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col md:flex-row items-stretch min-h-[500px] shadow-2xl rounded-[2rem] md:rounded-[3rem] overflow-hidden animate-fade-in-up mt-12 md:mt-0">
-            <div className="bg-[#FDFBF7]/95 backdrop-blur-md p-8 md:p-16 lg:p-20 flex-1 flex flex-col justify-center text-left relative overflow-hidden">
-                {/* Subtle decorative element */}
-                <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#5D8736]/5 rounded-full blur-3xl"></div>
-                
-                <span className="font-sans font-bold text-[10px] md:text-xs tracking-[0.2em] text-[#5D8736] uppercase mb-4 md:mb-6 flex items-center gap-3">
-                    <span className="w-8 h-px bg-[#5D8736]/50"></span>
-                    Sustainable Outdoor Living
-                </span>
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif leading-[1.05] mb-6 md:mb-8 text-[#1A2E24] tracking-tight">
-                    Nature, <br/>
-                    <span className="italic font-light text-[#5D8736]">Cultivated.</span>
-                </h1>
-                <p className="text-[#5C7063] font-sans text-base md:text-lg leading-relaxed mb-8 md:mb-10 max-w-md">
-                    We create breathing spaces that connect your home to the earth. From minimalist gardens to sprawling estates.
-                </p>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <Button className="w-full sm:w-auto rounded-full bg-[#2C4A3B] hover:bg-[#1A2E24] text-white px-8 py-6 md:py-7 font-sans text-sm md:text-base tracking-wide shadow-xl shadow-[#2C4A3B]/20 transition-all hover:-translate-y-1">
-                        View Portfolio
+        <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto mt-20">
+            <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
+            >
+                <motion.span variants={fadeUp} className="block font-sans text-xs md:text-sm tracking-[0.3em] uppercase mb-6 text-[#D4AF37]">
+                    Elevating Outdoor Living
+                </motion.span>
+                <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl lg:text-8xl font-serif leading-[1.1] mb-8 tracking-tight">
+                    Masterpieces <br/>
+                    <span className="italic font-light text-white/90">in Nature.</span>
+                </motion.h1>
+                <motion.p variants={fadeUp} className="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto mb-12 leading-relaxed">
+                    Award-winning landscape architecture and design for luxury estates and modern homes.
+                </motion.p>
+                <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <Button className="w-full sm:w-auto bg-[#D4AF37] hover:bg-[#B5952F] text-white rounded-none px-10 py-7 text-sm uppercase tracking-widest transition-all">
+                        Explore Portfolio
                     </Button>
-                    <span className="font-serif italic text-[#5C7063] text-base md:text-lg">Est. 1994</span>
-                </div>
-            </div>
-            
-            <div className="hidden md:flex w-1/3 bg-[#5D8736] text-white p-12 lg:p-16 flex-col justify-between relative overflow-hidden">
-                {/* Decorative pattern */}
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,white_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-                
-                <div className="space-y-10 relative z-10">
-                    <div className="border-l-2 border-white/30 pl-6 group cursor-pointer">
-                        <h3 className="font-serif text-2xl mb-3 group-hover:text-white/90 transition-colors">Native Planting</h3>
-                        <p className="text-white/80 font-sans text-sm leading-relaxed">Local flora that thrives in your climate with minimal water use.</p>
-                    </div>
-                    <div className="border-l-2 border-white/30 pl-6 opacity-60 hover:opacity-100 transition-all cursor-pointer group">
-                        <h3 className="font-serif text-2xl mb-3 group-hover:text-white/90 transition-colors">Hardscaping</h3>
-                        <p className="text-white/80 font-sans text-sm leading-relaxed">Structure meets organic flow.</p>
-                    </div>
-                </div>
-                <div className="flex justify-end relative z-10">
-                    <Sun className="w-16 h-16 text-white/20 rotate-12" />
-                </div>
-            </div>
+                    <Button variant="outline" className="w-full sm:w-auto border-white text-white hover:bg-white hover:text-[#1A2E24] rounded-none px-10 py-7 text-sm uppercase tracking-widest transition-all bg-transparent">
+                        Our Services
+                    </Button>
+                </motion.div>
+            </motion.div>
         </div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-white/60"
+        >
+            <span className="text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+            <div className="w-px h-12 bg-white/20 relative overflow-hidden">
+                <motion.div 
+                    animate={{ y: [0, 48] }}
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                    className="absolute top-0 left-0 w-full h-1/2 bg-white"
+                />
+            </div>
+        </motion.div>
       </section>
 
-      {/* PHILOSOPHY - Magazine Layout */}
-      <section className="py-20 md:py-32 px-4 md:px-6">
-        <div className="container mx-auto max-w-6xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
-                <div className="order-2 lg:order-1 relative group px-4 md:px-0">
-                    <div className="aspect-[4/5] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl">
+      {/* PHILOSOPHY / ABOUT */}
+      <section className="py-24 md:py-40 px-6">
+        <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                <motion.div 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={staggerContainer}
+                    className="order-2 lg:order-1"
+                >
+                    <motion.span variants={fadeUp} className="block font-sans text-xs tracking-[0.2em] uppercase mb-6 text-[#D4AF37]">
+                        Our Philosophy
+                    </motion.span>
+                    <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.1] mb-8 text-[#1A2E24]">
+                        Crafting environments <br/>that <span className="italic text-[#5D8736]">breathe.</span>
+                    </motion.h2>
+                    <motion.p variants={fadeUp} className="text-[#5C7063] text-lg leading-relaxed mb-8 font-light">
+                        We believe your outdoor space should be a seamless extension of your home. Our team of landscape architects and horticulturists transform ordinary grounds into extraordinary sanctuaries.
+                    </motion.p>
+                    <motion.p variants={fadeUp} className="text-[#5C7063] text-lg leading-relaxed mb-12 font-light">
+                        By blending structural elegance with organic flow, we create living works of art that evolve beautifully with the seasons and stand the test of time.
+                    </motion.p>
+                    <motion.div variants={fadeUp}>
+                        <Link href="#" className="inline-flex items-center gap-3 text-[#1A2E24] font-medium uppercase tracking-widest text-sm group">
+                            <span className="border-b border-[#1A2E24] pb-1 group-hover:border-[#D4AF37] group-hover:text-[#D4AF37] transition-colors">Read Our Story</span>
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-2 group-hover:text-[#D4AF37] transition-all" />
+                        </Link>
+                    </motion.div>
+                </motion.div>
+
+                <motion.div 
+                    initial={{ opacity: 0, x: 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
+                    className="order-1 lg:order-2 relative"
+                >
+                    <div className="aspect-[4/5] w-full overflow-hidden">
                         <img 
-                            src="https://images.unsplash.com/photo-1598902136373-c62584e03f0b?q=80&w=2670&auto=format&fit=crop" 
-                            alt="Garden design" 
-                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=2670&auto=format&fit=crop" 
+                            alt="Luxury landscaping" 
+                            className="w-full h-full object-cover"
                         />
                     </div>
-                    <div className="absolute -bottom-6 -right-2 md:-bottom-10 md:-right-10 bg-white p-6 md:p-8 rounded-full shadow-2xl w-36 h-36 md:w-48 md:h-48 flex flex-col justify-center items-center text-center border border-[#E8E6E1]/50">
-                        <span className="font-serif text-3xl md:text-5xl text-[#5D8736] block mb-1">100%</span>
-                        <span className="font-sans text-[10px] md:text-xs uppercase tracking-widest text-[#2C4A3B] font-semibold">Organic<br/>Fertilizers</span>
+                    {/* Floating Stat Box */}
+                    <div className="absolute -bottom-8 -left-8 md:-bottom-12 md:-left-12 bg-white p-8 md:p-10 shadow-2xl max-w-[240px]">
+                        <p className="text-5xl md:text-6xl font-serif text-[#1A2E24] mb-2">25<span className="text-[#D4AF37]">+</span></p>
+                        <p className="text-xs md:text-sm uppercase tracking-widest text-[#5C7063] font-medium leading-relaxed">Years of Design Excellence</p>
                     </div>
-                </div>
-                <div className="order-1 lg:order-2 px-4 md:px-8">
-                    <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1A2E24] mb-6 md:mb-8 leading-[1.1] tracking-tight">
-                        We don't just mow.<br/>
-                        We <span className="italic text-[#5D8736] relative inline-block">
-                            nurture.
-                            <svg className="absolute w-full h-3 -bottom-1 left-0 text-[#5D8736]/30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
-                            </svg>
-                        </span>
-                    </h2>
-                    <p className="font-sans text-[#5C7063] text-lg md:text-xl leading-relaxed mb-10 md:mb-12 font-light">
-                        A garden is a living entity that evolves with the seasons. Our approach combines horticultural science with artistic vision to ensure your landscape grows more beautiful with time. 
-                    </p>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 md:gap-y-8 gap-x-4">
-                        {[
-                            { icon: Scissors, label: "Precision Pruning" },
-                            { icon: Droplets, label: "Irrigation Systems" },
-                            { icon: TreeDeciduous, label: "Tree Surgery" },
-                            { icon: Flower, label: "Seasonal Color" },
-                        ].map((item, idx) => (
-                            <div key={idx} className="flex items-center gap-4 group cursor-pointer p-3 -m-3 rounded-2xl hover:bg-[#F0F2EB]/50 transition-colors">
-                                <span className="p-3 md:p-4 bg-[#F0F2EB] rounded-2xl text-[#5D8736] group-hover:bg-[#5D8736] group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:-translate-y-1">
-                                    <item.icon size={20} className="md:w-6 md:h-6" />
-                                </span>
-                                <span className="font-serif text-lg md:text-xl text-[#2C4A3B]">{item.label}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                </motion.div>
             </div>
         </div>
       </section>
 
-      {/* PROCESS - Horizontal Scroll Concept (Static for now) */}
-      <section className="py-20 md:py-32 bg-[#E8E6E1]/50 overflow-hidden relative">
-          {/* Decorative background elements */}
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#2C4A3B]/10 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#2C4A3B]/10 to-transparent"></div>
-          
-          <div className="container mx-auto px-6 mb-10 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div>
-                  <span className="font-sans font-bold text-[10px] md:text-xs tracking-[0.2em] text-[#5D8736] uppercase mb-4 block">How We Work</span>
-                  <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1A2E24] tracking-tight">Our Process</h2>
-              </div>
-              <p className="text-[#5C7063] font-sans max-w-sm text-sm md:text-base">From initial concept to ongoing care, we handle every detail of your landscape's lifecycle.</p>
-          </div>
-          
-          {/* Hide scrollbar but keep functionality */}
-          <div className="flex gap-6 md:gap-8 px-6 md:px-12 overflow-x-auto pt-8 md:pt-16 pb-16 snap-x snap-mandatory hide-scrollbar">
-                {[1, 2, 3, 4].map((step) => (
-                    <div key={step} className="min-w-[280px] md:min-w-[400px] bg-[#FDFBF7] p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] snap-center relative hover:-translate-y-2 md:hover:-translate-y-4 transition-all duration-500 shadow-sm hover:shadow-2xl border border-white">
-                        <span className="absolute -top-6 md:-top-8 left-8 md:left-10 bg-[#2C4A3B] text-white font-serif text-3xl md:text-4xl w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-xl border-4 border-[#FDFBF7] transition-transform group-hover:scale-110">
-                            {step}
+      {/* SERVICES BENTO GRID */}
+      <section className="py-24 md:py-40 bg-[#1A2E24] text-white px-6">
+        <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24">
+                <motion.div 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={staggerContainer}
+                >
+                    <motion.span variants={fadeUp} className="block font-sans text-xs tracking-[0.2em] uppercase mb-4 text-[#D4AF37]">
+                        Our Expertise
+                    </motion.span>
+                    <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.1]">
+                        Comprehensive <br/><span className="italic font-light text-white/80">Landscaping</span>
+                    </motion.h2>
+                </motion.div>
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 }}
+                >
+                    <Link href="#" className="inline-flex items-center gap-3 text-white font-medium uppercase tracking-widest text-sm group">
+                        <span className="border-b border-white/30 pb-1 group-hover:border-white transition-colors">View All Services</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                    </Link>
+                </motion.div>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Card 1 - Large */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                    className="lg:col-span-2 relative h-[400px] md:h-[500px] group overflow-hidden bg-black"
+                >
+                    <img src="https://images.unsplash.com/photo-1584622781564-1d987f7333c1?q=80&w=2670&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" alt="Hardscaping" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
+                        <h3 className="text-3xl md:text-4xl font-serif mb-4">Architectural Hardscaping</h3>
+                        <p className="text-white/70 font-light max-w-md mb-6">Patios, retaining walls, and pathways crafted from premium natural stone and modern materials.</p>
+                        <span className="text-[#D4AF37] text-xs uppercase tracking-widest font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Explore <ArrowRight className="w-4 h-4" />
                         </span>
-                        <h3 className="font-serif text-2xl md:text-3xl mt-6 md:mt-8 mb-4 text-[#1A2E24]">
-                            {step === 1 ? "Consultation" : step === 2 ? "Design Concept" : step === 3 ? "Installation" : "Care Plan"}
-                        </h3>
-                        <p className="font-sans text-[#5C7063] text-sm md:text-base leading-relaxed font-light">
-                            {step === 1 ? "We begin by understanding your lifestyle and the unique microclimate of your property to ensure a perfect match." : 
-                             step === 2 ? "Our architects draft detailed 3D renderings and planting schedules tailored to your specific aesthetic." :
-                             step === 3 ? "Master craftsmen and horticulturists bring the vision to life with minimal disruption to your daily routine." :
-                             "Ongoing, seasonal maintenance to ensure your investment grows more beautiful year after year."}
-                        </p>
                     </div>
-                ))}
-          </div>
+                </motion.div>
+
+                {/* Card 2 */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="relative h-[400px] md:h-[500px] group overflow-hidden bg-black"
+                >
+                    <img src="https://images.unsplash.com/photo-1558293842-c0fd3db8415e?q=80&w=2670&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" alt="Planting" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-8 md:p-10 w-full">
+                        <h3 className="text-2xl md:text-3xl font-serif mb-4">Native Planting</h3>
+                        <p className="text-white/70 font-light mb-6">Curated flora that thrives in your specific microclimate.</p>
+                        <span className="text-[#D4AF37] text-xs uppercase tracking-widest font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Explore <ArrowRight className="w-4 h-4" />
+                        </span>
+                    </div>
+                </motion.div>
+
+                {/* Card 3 */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.1 }}
+                    className="relative h-[400px] group overflow-hidden bg-black"
+                >
+                    <img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?q=80&w=2669&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" alt="Water Features" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-8 md:p-10 w-full">
+                        <h3 className="text-2xl md:text-3xl font-serif mb-4">Water Features</h3>
+                        <p className="text-white/70 font-light mb-6">Tranquil ponds, modern fountains, and custom pools.</p>
+                        <span className="text-[#D4AF37] text-xs uppercase tracking-widest font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Explore <ArrowRight className="w-4 h-4" />
+                        </span>
+                    </div>
+                </motion.div>
+
+                {/* Card 4 - Large */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="lg:col-span-2 relative h-[400px] group overflow-hidden bg-black"
+                >
+                    <img src="https://images.unsplash.com/photo-1598902136373-c62584e03f0b?q=80&w=2670&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" alt="Maintenance" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
+                        <h3 className="text-3xl md:text-4xl font-serif mb-4">Estate Maintenance</h3>
+                        <p className="text-white/70 font-light max-w-md mb-6">White-glove horticultural care to ensure your landscape grows more beautiful year after year.</p>
+                        <span className="text-[#D4AF37] text-xs uppercase tracking-widest font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Explore <ArrowRight className="w-4 h-4" />
+                        </span>
+                    </div>
+                </motion.div>
+            </div>
+        </div>
       </section>
 
-      {/* FOOTER - Simple & Centered */}
-      <footer className="bg-[#1A2E24] text-[#E8E6E1] py-20 md:py-32 text-center relative overflow-hidden">
-            {/* Subtle background pattern */}
-            <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]"></div>
-            
-            <div className="relative z-10 px-4">
-                <Leaf className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-8 text-[#5D8736] opacity-80" />
-                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-8 md:mb-10 tracking-tight max-w-2xl mx-auto leading-[1.1]">Ready to transform your outdoors?</h2>
-                <Button className="bg-[#5D8736] hover:bg-[#7FB051] text-white rounded-full px-8 md:px-12 py-6 md:py-7 text-base md:text-lg font-sans tracking-wide shadow-2xl shadow-[#5D8736]/20 transition-all hover:-translate-y-1">
+      {/* PARALLAX CTA */}
+      <section className="relative py-32 md:py-48 bg-fixed bg-center bg-cover" style={{backgroundImage: "url('https://images.unsplash.com/photo-1558904541-efa843a96f09?q=80&w=2744&auto=format&fit=crop')"}}>
+        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+            >
+                <Leaf className="w-12 h-12 mx-auto mb-8 text-[#D4AF37]" />
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif mb-8 leading-[1.1]">Ready to redefine your landscape?</h2>
+                <p className="text-lg md:text-xl font-light text-white/80 mb-12 max-w-2xl mx-auto">
+                    Schedule a private consultation with our lead architects to discuss your vision.
+                </p>
+                <Button className="bg-[#D4AF37] hover:bg-[#B5952F] text-white rounded-none px-10 py-7 text-sm uppercase tracking-widest transition-all">
                     Book a Consultation
                 </Button>
-                <div className="mt-20 md:mt-32 flex flex-wrap justify-center gap-8 md:gap-12 font-sans text-[10px] md:text-xs tracking-[0.2em] opacity-60 uppercase font-semibold">
-                    <Link href="#" className="hover:text-white transition-colors hover:opacity-100">Instagram</Link>
-                    <Link href="#" className="hover:text-white transition-colors hover:opacity-100">Pinterest</Link>
-                    <Link href="#" className="hover:text-white transition-colors hover:opacity-100">Houzz</Link>
+            </motion.div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-[#0A1F12] text-white/60 py-20 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+            <div className="lg:col-span-1">
+                <div className="flex items-center gap-2 mb-8">
+                    <Leaf className="w-6 h-6 text-[#D4AF37]" />
+                    <span className="font-serif text-2xl tracking-tight text-white">
+                        Edenscapes
+                    </span>
+                </div>
+                <p className="font-light text-sm leading-relaxed mb-8">
+                    Masterpieces in nature. Award-winning landscape architecture and estate management.
+                </p>
+                <div className="flex gap-4">
+                    <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-all">
+                        <Instagram className="w-4 h-4" />
+                    </a>
+                    <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-all">
+                        <Facebook className="w-4 h-4" />
+                    </a>
+                    <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white transition-all">
+                        <Twitter className="w-4 h-4" />
+                    </a>
                 </div>
             </div>
+
+            <div>
+                <h4 className="text-white font-sans text-xs tracking-[0.2em] uppercase mb-8">Services</h4>
+                <ul className="space-y-4 font-light text-sm">
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Landscape Architecture</Link></li>
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Hardscaping & Masonry</Link></li>
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Native Planting</Link></li>
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Water Features</Link></li>
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Estate Maintenance</Link></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 className="text-white font-sans text-xs tracking-[0.2em] uppercase mb-8">Company</h4>
+                <ul className="space-y-4 font-light text-sm">
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Our Story</Link></li>
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Portfolio</Link></li>
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Journal</Link></li>
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Careers</Link></li>
+                    <li><Link href="#" className="hover:text-[#D4AF37] transition-colors">Contact</Link></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 className="text-white font-sans text-xs tracking-[0.2em] uppercase mb-8">Contact</h4>
+                <ul className="space-y-6 font-light text-sm">
+                    <li className="flex items-start gap-4">
+                        <MapPin className="w-5 h-5 text-[#D4AF37] shrink-0" />
+                        <span>1234 Botanical Way<br/>Beverly Hills, CA 90210</span>
+                    </li>
+                    <li className="flex items-center gap-4">
+                        <Phone className="w-5 h-5 text-[#D4AF37] shrink-0" />
+                        <span>(310) 555-0198</span>
+                    </li>
+                    <li className="flex items-center gap-4">
+                        <Mail className="w-5 h-5 text-[#D4AF37] shrink-0" />
+                        <span>design@edenscapes.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-light">
+            <p>&copy; {new Date().getFullYear()} Edenscapes Landscaping. All rights reserved.</p>
+            <div className="flex gap-6">
+                <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+                <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+            </div>
+        </div>
       </footer>
 
     </div>
